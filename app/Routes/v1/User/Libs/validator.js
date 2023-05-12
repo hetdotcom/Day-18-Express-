@@ -1,38 +1,60 @@
-// const fs = require("fs");
+const common = require("../../../../Common/common");
 
 class Validator {
   validateUserCred(req, res, next) {
     try {
       const { sUsername, sFullname, sEmail, sPassword, nMobile } = req.body;
-      if (sUsername && sFullname && sEmail && sPassword && nMobile) {
-        
-        let rUnameRegex = /^[A-Za-z]\w{3,16}$/;
-        let bUnameValidation = rUnameRegex.test(sUsername);
+      if (req.url === "/register") {
+        if (sUsername && sFullname && sEmail && sPassword && nMobile) {
+          let bEmailValidation = common.validEmail(sEmail);
+          let bMobileValidation = common.validMobile(nMobile);
+          let bUnameValidation = common.validUsername(sUsername);
+          let bPasswordValidation = common.validPassword(sPassword);
 
-        let rPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])(?=.{6,16})/;
-        let bPasswordValidation = rPasswordRegex.test(sPassword);
-
-        if(bUnameValidation && bPasswordValidation){
+          if (
+            bUnameValidation &&
+            bPasswordValidation &&
+            bEmailValidation &&
+            bMobileValidation
+          ) {
             next();
-            // return res.end("validation done");
+          } else {
+            return res.end("validation failed");
+          }
         } else {
-            return res.end("validation failed")
+          return res.status(400).json({
+            nStatus: 400,
+            sError: "Please enter all the required fields",
+          });
         }
-
+      } else if (req.url === "/login") {
+        if (sUsername && sPassword) {
+          let bUnameValidation = common.validUsername(sUsername);
+          let bPasswordValidation = common.validPassword(sPassword);
+          if (bUnameValidation && bPasswordValidation) {
+            next();
+          } else {
+            return res.end("validation failed");
+          }
+        } else {
+          return res.status(400).json({
+            nStatus: 400,
+            sError: "Please enter Username & Password",
+          });
+        }
       } else {
         return res.status(400).json({
           nStatus: 400,
-          sError: "Please enter all the required fields",
+          sError: "Please enter valid URI",
         });
       }
     } catch (error) {
-       res.status(500).json({
-         nStatus: 500,
-         sError: "Validation Error",
-       });
+      res.status(500).json({
+        nStatus: 500,
+        sError: "Validation Error",
+      });
     }
   }
-
 }
 
 module.exports = new Validator();

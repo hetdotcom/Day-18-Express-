@@ -5,20 +5,14 @@ class Middleware {
   isNewUser(req, res, next) {
     try {
       const { sUsername, sEmail, nMobile } = req.body;
+
       let oJsonfile = common.readJSON(
         "C:/Users/91720/Desktop/B-Square/Day-18(Express)/app/Model/db.json"
       );
-      // console.log(oJsonfile);
 
-      let nUnameIndex = oJsonfile.aUserdata.findIndex(
-        (object) => object.sUsername === sUsername
-      );
-      let nEmailIndex = oJsonfile.aUserdata.findIndex(
-        (object) => object.sEmail === sEmail
-      );
-      let nMobileIndex = oJsonfile.aUserdata.findIndex(
-        (object) => object.nMobile === nMobile
-      );
+      let nUnameIndex = common.findUsername(oJsonfile, sUsername);
+      let nEmailIndex = common.findEmail(oJsonfile, sEmail);
+      let nMobileIndex = common.findMobile(oJsonfile, nMobile);
       // console.log(nUnameIndex, nEmailIndex, nMobileIndex);
 
       if (nUnameIndex != -1 || nEmailIndex != -1 || nMobileIndex != -1) {
@@ -27,17 +21,17 @@ class Middleware {
         next();
       }
     } catch (error) {
-      // console.log(error);
+      console.log(error);
       return res.status(500).json({
         nStatus: 500,
         sError: "Middleware error",
       });
     }
   }
-  
+
   authenticateUser(req, res, next) {
+    // console.log(req.params.username);
     try {
-      // console.log(req.params.username);
       if (!req.params.username) {
         return res.status(400).json({
           nStatus: 400,
@@ -50,9 +44,10 @@ class Middleware {
         });
         // next();
       }
-      res.send(req.params.username);
     } catch (error) {}
   }
+
+  verifyToken() {}
 }
 
 module.exports = new Middleware();

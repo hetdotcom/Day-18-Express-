@@ -14,10 +14,17 @@ router.post(
   userController.registerUser
 );
 
-router.put(
-  "/update/:username",
-  userMiddleware.authenticateUser,
-  userValidator.validateUserCred
+router.post(
+  "/login",
+  userValidator.validateUserCred,
+  // userMiddleware.isNewUser,
+  // userController.registerUser
 );
+
+// router.put(
+//   "/update/:username",
+//   userMiddleware.authenticateUser,
+//   userValidator.validateUserCred
+// );
 
 module.exports = router;
