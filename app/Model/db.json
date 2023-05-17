@@ -3,16 +3,34 @@
     {
       "sUsername": "HetPatel48",
       "sFullname": "Het Patel",
-      "sEmail": "emailp48@email.com",
+      "sEmail": "emailp48@emaill.com",
       "sPassword": "9c50c773a0cbaef5f64c6cefdbb045f4ca38520432b23f66dbeefa75b5a8ff75",
-      "nMobile": 9998884444
+      "nMobile": 1111111111,
+      "sRole": "admin"
     },
     {
-      "sUsername": "HetPatel480",
+      "sUsername": "HetPatel4888888",
       "sFullname": "Het Patel",
-      "sEmail": "emailp48@emaill.com",
+      "sEmail": "emailpp48@emaill.com",
       "sPassword": "e60142aec38abe333db1bfec1a2998104fd2f39273de69d4f7716daf666ecf21",
-      "nMobile": 99988844424
+      "nMobile": 4498882248,
+      "sRole": "user"
+    },
+    {
+      "sUsername": "HetPatel488",
+      "sFullname": "Het Patel",
+      "sEmail": "emailpppp48@emaill.com",
+      "sPassword": "e60142aec38abe333db1bfec1a2998104fd2f39273de69d4f7716daf666ecf21",
+      "nMobile": 4498882244,
+      "sRole": "user"
+    },
+    {
+      "sUsername": "Test123",
+      "sFullname": "Het Patel",
+      "sEmail": "test123@emaill.com",
+      "sPassword": "849f1575ccfbf3a4d6cf00e6c5641b7fd4da2ed3e212c2d79ba9161a5a432ff0",
+      "nMobile": 1111111113,
+      "sRole": "user"
     }
   ]
 }

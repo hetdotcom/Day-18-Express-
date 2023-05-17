@@ -9,22 +9,30 @@ router.use(bodyParser.json());
 
 router.post(
   "/register",
-  userValidator.validateUserCred,
+  userValidator.validateUserCredForRegisterAndUpdate,
   userMiddleware.isNewUser,
   userController.registerUser
 );
 
 router.post(
   "/login",
-  userValidator.validateUserCred,
-  // userMiddleware.isNewUser,
-  // userController.registerUser
+  userValidator.validateUserCredLogin,
+  userMiddleware.authenticateUser,
+  userController.loginUser
 );
+// /update
+// /update/:id
 
-// router.put(
-//   "/update/:username",
-//   userMiddleware.authenticateUser,
-//   userValidator.validateUserCred
-// );
+router.put(
+  "/update",
+  userValidator.validateUserCredForRegisterAndUpdate,
+  userMiddleware.verifyToken,
+  userMiddleware.isNewUser,
+  userController.updateUser
+
+  // (req, res) => {
+  //   res.send({ message: "update success" });
+  // }
+);
 
 module.exports = router;
