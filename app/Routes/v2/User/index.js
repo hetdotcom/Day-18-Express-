@@ -5,6 +5,7 @@ const userController = require("../../v1/User/Libs/controller");
 const userMiddleware = require("../../v1/User/Libs/middleware");
 const userValidator = require("./Libs/validator");
 
+
 router.use(bodyParser.json());
 
 router.post(

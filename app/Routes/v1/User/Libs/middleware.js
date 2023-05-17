@@ -1,5 +1,7 @@
 const { common, oJsonfile } = require("../../../../Common/common");
+let messaege = require("../../../../Messages");
 const jwt = require("jsonwebtoken");
+
 // const url = require("url")
 
 class Middleware {
@@ -13,16 +15,17 @@ class Middleware {
       // console.log(nUnameIndex, nEmailIndex, nMobileIndex);
 
       if (nUnameIndex != -1 || nEmailIndex != -1 || nMobileIndex != -1) {
-        return res.send({ sMessage: "user already registered!!" });
+        return res
+          .status(messaege.status.accepted)
+          .json(messaege.messages.alreadyRegisteredUser);
       } else {
         next();
       }
     } catch (error) {
       console.log(error);
-      return res.status(500).json({
-        nStatus: 500,
-        sError: "Middleware error",
-      });
+      return res
+        .status(messaege.status.internalServerError)
+        .json(messaege.messages.middlewareError);
     }
   }
 
@@ -39,16 +42,14 @@ class Middleware {
           // console.log(nUserIndex);
           next();
         } else {
-          return res.status(401).json({
-            nStatus: 401,
-            sError: "Invalid username or password or role",
-          });
+          return res
+            .status(messaege.status.unauthorized)
+            .json(messaege.messages.invalidCredentials);
         }
       } else {
-        return res.status(401).json({
-          nStatus: 401,
-          sError: "Invalid username or password",
-        });
+        return res
+          .status(messaege.status.unauthorized)
+          .json(messaege.messages.invalidCredentials);
       }
       // console.log('////////////////////////////////');
     } catch (error) {
@@ -64,8 +65,7 @@ class Middleware {
 
         jwt.verify(jwtToken, process.env.SECRET_KEY, (error, data) => {
           if (error) {
-            return res.status(401).json({
-              nStatus: 401,
+            return res.status(messaege.status.unauthorized).json({
               sError: "Invalid Token",
             });
           } else {
@@ -74,20 +74,18 @@ class Middleware {
             const nUserIndex = common.findUsername(sUsername);
             console.log(nUserIndex);
             req.nUserIndex = nUserIndex;
-            next(null);
+            next();
           }
         });
       } else {
-        return res.status(401).json({
-          nStatus: 401,
-          sError: "Invalid Token",
-        });
+        return res
+          .status(messaege.status.unauthorized)
+          .json(messaege.messages.invalidToken);
       }
     } catch (error) {
-      return res.status(401).json({
-        nStatus: 401,
-        sError: "Verification Error",
-      });
+      return res
+        .status(messaege.status.unauthorized)
+        .json(messaege.messages.invalidToken);
     }
   }
 }

@@ -7,30 +7,21 @@ const messages = {
   wrongpass: { messaege: "Password doesnt match" },
   emailReq: { messaege: "Email id is required" },
   passReq: { messaege: "Password is required" },
-  fistNameReq: { messaege: "Firstname required" },
-  lastNameReq: { messaege: "Lastname required" },
+  wrongRole: { messaege: "Enter valid role" },
   updatedProfile: { messaege: "Profile successfully updated" },
   invalidCredentials: { messaege: "Invalid credentials" },
   changePass: { messaege: "Password changed successfully" },
   unAuthorized: { messaege: "You are unauthorized!" },
-  alreadyLoggedin: { messaege: "Already logged in" },
-  productRegistered: { messaege: "Already Registered Product" },
   routeNotFound: { message: "Route Not Found!" },
   registerSucess: { message: "Registered succesfully" },
-  userNamePattern: {
-    message: "The pattern for username should be: user_123 or user.124",
-  },
-  emailPattern: {
-    message: "Please enter a valid email like user123@gmail.com",
-  },
-  validMobile: { message: "Please enter valid mobile with country code" },
-  validGender: {
-    message:
-      "Please enter a valid gender, the options are 1.Male 2.Female 3.Others",
-  },
   mandatoryFields: { message: "Please add all fields" },
-
   userNotFound: { message: "User not found" },
+  tokenError: {messaege: "jWT token sign error"},
+  controllerError: {message: "Conroller Error"},
+  validationError: {message: "validation error"},
+  middlewareError: {message: "middleware error"},
+  invalidToken: {message: "invalid token"},
+  tokenVerificationError: {message: "token not verified"},
 };
 
 module.exports = messages;

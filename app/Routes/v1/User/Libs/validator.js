@@ -1,11 +1,11 @@
 const { common } = require("../../../../Common/common");
+const messaege = require("../../../../Messages");
 
 class Validator {
   validateUserCredForRegisterAndUpdate(req, res, next) {
     try {
       const { sUsername, sFullname, sEmail, sPassword, nMobile, sRole } =
         req.body;
-      if (req.url === "/register" || req.url === "/update") {
         if (sUsername && sFullname && sEmail && sPassword && nMobile && sRole) {
           let bEmailValidation = common.validateEmail(sEmail);
           let bMobileValidation = common.validateMobile(nMobile);
@@ -20,32 +20,24 @@ class Validator {
           ) {
             next();
           } else {
-            return res.end("validation failed");
+            return res
+              .status(messaege.status.badrequest)
+              .json(messaege.messages.validationError);
           }
         } else {
-          return res.status(400).json({
-            nStatus: 400,
-            sError: "Please enter all the required fields",
-          });
+          return res
+            .status(messaege.status.badrequest)
+            .json(messaege.messages.mandatoryFields);
         }
-      } else {
-        return res.status(400).json({
-          nStatus: 400,
-          sError: "Please enter valid URI",
-        });
-      }
+
     } catch (error) {
       // console.log(error);
-      res.status(500).json({
-        nStatus: 500,
-        sError: "Validation Error",
-      });
+      res.status(messaege.status.internalServerError).json(messaege.messages.validationError);
     }
   }
   validateUserCredLogin(req, res, next) {
     try {
       const { sUsername, sPassword, sRole } = req.body;
-      if (req.url === "/login") {
         if (sUsername && sPassword && sRole) {
           req.sUsername = sUsername;
           let bUnameValidation = common.validateUsername(sUsername);
@@ -54,24 +46,20 @@ class Validator {
           if (bUnameValidation && bPasswordValidation) {
             next();
           } else {
-            return res.status(400).json({
-              nStatus: 400,
-              sError: "validation failed",
-            });
+            return res
+              .status(messaege.status.badrequest)
+              .json(messaege.messages.validationError);
           }
         } else {
-          return res.status(400).json({
-            nStatus: 400,
-            sError: "Please enter Username & Password",
-          });
+          return res
+            .status(messaege.status.badrequest)
+            .json(messaege.messages.mandatoryFields);
         }
-      }
     } catch (error) {
       console.log(error);
-      res.status(500).json({
-        nStatus: 500,
-        sError: "Validation Error",
-      });
+      res
+        .status(messaege.status.internalServerError)
+        .json(messaege.messages.validationError);
     }
   }
 }

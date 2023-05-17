@@ -1,4 +1,4 @@
-let messaege = require('../../../../Messages')
+let messaege = require("../../../../Messages");
 
 const { common, oJsonfile } = require("../../../../Common/common");
 const jwt = require("jsonwebtoken");
@@ -15,14 +15,12 @@ class Controller {
         "C:/Users/91720/Desktop/B-Square/Day-18(Express)/app/Model/db.json",
         oJsonfile
       );
-      return res.status(200).json({
-        nStatus: 200,
-        sMessage: "registration done",
-      });
+      return res
+        .status(messaege.status.statusSuccess)
+        .json(messaege.messages.registeredSuccess);
     } catch (error) {
       console.log(error);
-      return res.status(500).json({
-        nStatus: 500,
+      return res.status(messaege.status.internalServerError).json({
         sError: "controller error",
       });
     }
@@ -33,8 +31,7 @@ class Controller {
     try {
       let { sRole, sUsername } = req.body;
       if (!sRole && !sUsername) {
-        return res.status(400).json({
-          nStatus: 400,
+        return res.status(messaege.status.badrequest).json({
           sMessage: "Forbidden",
         });
       } else {
@@ -43,10 +40,7 @@ class Controller {
         } else if (sRole === "user") {
           aRights = ["read", "create", "update"];
         } else {
-          return res.status(400).json({
-            nStatus: 400,
-            sMessage: "Enter valid role",
-          });
+          return res.status(messaege.status.badrequest).json(messaege.messages.wrongRole);
         }
         jwt.sign(
           { aRights, sUsername },
@@ -55,16 +49,11 @@ class Controller {
           (error, token) => {
             if (error) {
               console.log(error);
-              return res.status(500).json({
-                nStatus: 500,
-                sError: "controller error",
-              });
+              return res.status(messaege.status.internalServerError).json(messaege.messages.tokenError);
             }
             // next(null);
-            return res.status(200).json({
-              nStatus: 200,
-              sMessage: "login done",
-              // sUsername,
+            return res.status(messaege.status.statusSuccess).json({
+              sMessage: messaege.messages.loginSuccess.messaege,
               token,
             });
           }
@@ -94,24 +83,17 @@ class Controller {
           oJsonfile
         );
       } else {
-        return res.status(404).json({
-          nStatus: 404,
-          sError: "User not found",
-        });
+        return res.status(messaege.status.statusNotFound).json(messaege.messages.userNotFound);
       }
       console.log(oJsonfile);
     } catch (error) {
       // console.log(error);
-      return res.status(500).json({
-        nStatus: 500,
-        sError: "controller error",
-      });
+      return res.status(messaege.status.internalServerError).json(messaege.messages.controllerError);
     }
     let oUpdatedData = oJsonfile.aUserdata[nUserIndex];
-    res.status(200).json({
-      nStatus: 200,
-      sError: "updation done",
-      oUpdatedData
+    res.status(messaege.status.statusSuccess).json({
+      sMessage: messaege.messages.updatedProfile.messaege,
+      oUpdatedData,
     });
   }
 }
